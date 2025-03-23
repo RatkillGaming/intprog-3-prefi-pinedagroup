@@ -7,22 +7,22 @@ const Recipe = require('./models/recipe');
 const app = express();
 const PORT = 3000;
 
-// Connect to MongoDB
+//=========================================================================================================MONGODB CONNECT
 mongoose.connect('mongodb://localhost:27017/recipes', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB'))
   .catch((error) => console.error('MongoDB connection error:', error));
 
 app.use(bodyParser.json());
 
-// Serve static files
+//=========================================================================================================STATIC FILE NEED
 app.use(express.static(__dirname));
 
-// Home route
+//=========================================================================================================GOES TO INDEX
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
-// Fetch recipes from The MealDB API
+//=========================================================================================================API BASTA KANA AHAK OI POYA HAHAHA
 app.get('/recipes', async (req, res) => {
   try {
     const response = await axios.get('https://www.themealdb.com/api/json/v1/1/search.php?s=');
@@ -57,14 +57,15 @@ app.get('/recipes', async (req, res) => {
       ].filter(ingredient => ingredient !== '' && ingredient !== null).join(', '),
       instructions: recipe.strInstructions 
     }));
-    res.json(updatedRecipes); // Send the response back to the client
+    //=========================================================================================================RSPONDS BACK TO ME
+    res.json(updatedRecipes);
   } catch (error) {
     console.error(error);
     res.status(500).send('Error fetching recipes');
   }
 });
 
-// Search recipes by name or category
+//=========================================================================================================RECIPE TO BE SHOWN BY NAME
 app.get('/search-recipes', async (req, res) => {
   try {
     const { query } = req.query;
@@ -76,11 +77,11 @@ app.get('/search-recipes', async (req, res) => {
   }
 });
 
-// Save a recipe to MongoDB
+//=========================================================================================================RECIPE SAVE TO MONGO
 app.post('/save-recipe', async (req, res) => {
   try {
-    const { id, name, image, ingredients, instructions } = req.body; // Get instructions from request body
-    const newRecipe = new Recipe({ id, name, image, ingredients, instructions }); // Include instructions in newRecipe
+    const { id, name, image, ingredients, instructions } = req.body;
+    const newRecipe = new Recipe({ id, name, image, ingredients, instructions });
     await newRecipe.save();
     res.status(201).send('Recipe saved!');
   } catch (error) {
@@ -89,7 +90,7 @@ app.post('/save-recipe', async (req, res) => {
   }
 });
 
-// Unsave a recipe
+//=========================================================================================================RFECIPE UNSAVE FROM MONGO
 app.delete('/unsave-recipe/:id', async (req, res) => {
   try {
     const id = req.params.id;
@@ -105,11 +106,11 @@ app.delete('/unsave-recipe/:id', async (req, res) => {
     res.status(200).send({ message: 'Recipe unsaved!', data: result });
   } catch (error) {
     console.error('Error unsaving recipe:', error);
-    res.status(500).send({ message: 'Error unsaving recipe', error: error.message });
+    res.status(500).send({ message: 'Error unsaving recipe', error: error.message });                                                                                                                                                         //pineda 23222516
   }
 });
 
-// View saved recipes
+//=========================================================================================================VIEW SAVED RECIPES
 app.get('/saved-recipes', async (req, res) => {
   try {
     const recipes = await Recipe.find();
@@ -120,7 +121,7 @@ app.get('/saved-recipes', async (req, res) => {
   }
 });
 
-// Start the server
+//=========================================================================================================ENGINE START
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

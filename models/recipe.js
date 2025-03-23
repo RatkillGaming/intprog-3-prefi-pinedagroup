@@ -6,7 +6,7 @@ const recipeSchema = new mongoose.Schema({
   name: String,
   image: String,
   ingredients: String,
-  instructions: String // Add instructions field to schema
+  instructions: String
 });
 
 const Recipe = mongoose.model('Recipe', recipeSchema);
