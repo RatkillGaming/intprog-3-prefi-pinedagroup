@@ -1,0 +1,20 @@
+{
+  "name": "mealsave",
+  "version": "1.0.0",
+  "description": "MealSave - Recipe Manager",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.4.8",
+    "axios": "^1.6.2",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "mongodb": "^6.15.0",
+    "mongoose": "^8.12.2",
+    "postcss": "^8.4.14",
+    "tailwindcss": "^3.2.4"
+  }
+}
